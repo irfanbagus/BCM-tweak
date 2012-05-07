@@ -1,0 +1,27 @@
+BCM-tweak
+=========
+BCM-tweak is small kernel module to enable UV, cpufreq stat, and governor
+on Samsung Galaxy Y. It's have 3 parameters that you can add while install
+module (insmod).
+
+- bcm_latency=<uint>
+  Set cpufreq latency, default value -1. Set below 10ms (10000000) to enble
+  ondemand governor.
+- bcm_normal_voltage=<uint>
+  Set voltage while cpu in normal mode (312 Mhz). Defaut value 1.24 V (1240000).
+- bcm_turbo_voltage=<uint>
+  Set voltage while cpu in turbo mode (832 Mhz). Defaut value 1.3 V (1300000).
+
+Issue
+-----
+New voltage will not apply until cpu change frequency. To apply new voltage
+change frequency with this command :
+
+echo performance > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+echo 312000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+echo 832000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+echo bcm21553 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+
+Licence
+-------
+BCM-tweak release under GPL v2. See COPYING.
