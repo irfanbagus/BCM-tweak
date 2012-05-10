@@ -34,7 +34,7 @@ module_param(bcm_normal_voltage,uint,0664);
 static uint bcm_turbo_voltage = 0;
 module_param(bcm_turbo_voltage,uint,0664);
 
-static int __init cpufreq_fix_init(void)
+static int __init bcm_tweak_init(void)
 {
 	struct cpufreq_policy *policy = 0;
 	struct bcm_freq_tbl *freq_tbl;
@@ -76,11 +76,11 @@ static int __init cpufreq_fix_init(void)
 	return 0;
 }
 
-static void __exit cpufreq_fix_exit(void)
+static void __exit bcm_tweak_exit(void)
 {
 	cpufreq_frequency_table_put_attr(0);
 	kfree(cpufreq_fix_table);
 }
 
-module_init(cpufreq_fix_init);
-module_exit(cpufreq_fix_exit);
+module_init(bcm_tweak_init);
+module_exit(bcm_tweak_exit);
