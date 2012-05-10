@@ -1,0 +1,13 @@
+#!/system/bin/sh
+
+LATENCY=1000000
+NORMAL_VOLTAGE=1160000
+TURBO_VOLTAGE=1220000
+
+/system/bin/insmod /system/lib/modules/bcm-tweak.ko "bcm_latency=$LATENCY bcm_normal_voltage=$NORMAL_VOLTAGE bcm_turbo_voltage=$TURBO_VOLTAGE"
+/system/bin/insmod /system/lib/modules/cpufreq_interactive.ko
+# Force freq to change
+echo performance > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+echo 312000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+echo 832000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+echo bcm21553 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
