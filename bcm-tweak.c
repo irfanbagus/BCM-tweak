@@ -1,15 +1,19 @@
-/* BCM-tweak is small kernel module to enable UV, cpufreq stat, and governor
+/* 
+ * BCM-tweak is small kernel module to enable UV, cpufreq stat, and governor
  * on Samsung Galaxy Y.
  *
  * Copyright (c) 2012 Irfan Bagus. All rights reserved.
  * Written by Irfan Bagus (irfanbagus@gmail.com)
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public Licence
- * as published by the Free Software Foundation; either version
- * 2 of the Licence, or (at your option) any later version.
+ * This software is licensed under the terms of the GNU General Public
+ * License version 2, as published by the Free Software Foundation, and
+ * may be copied, distributed, and modified under those terms.
  *
- * See README
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
  */
 
 #include <linux/module.h>
@@ -19,7 +23,6 @@
 #include <linux/kallsyms.h>
 #include <linux/cpufreq.h>
 #include <plat/bcm_cpufreq_drv.h>
-#include <mach/reg_clkpwr.h>
 
 MODULE_LICENSE("GPL");
 
