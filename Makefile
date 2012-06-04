@@ -8,4 +8,4 @@ all:
 	make -C $(KERNEL_SRC_PATH) M=$(PWD) CROSS_COMPILE=$(TOOLCHAIN) modules
 	$(TOOLCHAIN)strip --strip-debug *.ko
 clean:
-	make -C $(KERNEL_SRC_PATH) M=$(PWD) clean
+	make -C $(KERNEL_SRC_PATH) M=$(PWD) clean CROSS_COMPILE=$(TOOLCHAIN)
