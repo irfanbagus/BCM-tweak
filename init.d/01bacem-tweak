@@ -2,7 +2,7 @@
 
 VOLTAGE=-60mV
 
-/system/bin/insmod /system/lib/modules/bacem-tweak.ko
+/system/bin/insmod /system/lib/modules/bacem_tweak.ko
 /system/bin/insmod /system/lib/modules/cpufreq_interactive.ko
 
 echo $VOLTAGE > /proc/sys/bacem/volt/cpu
