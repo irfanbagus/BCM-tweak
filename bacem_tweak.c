@@ -142,28 +142,29 @@ static void fix_freq_table(void) {
 	int i;
 
 	/* table */
-	if (cpufreq_frequency_get_table(0))
-		return;
-	cpu_info = (struct bcm_cpu_info*)kallsyms_lookup_name(
-			"bcm215xx_cpu_info");
-	if (cpu_info) {
-		cpufreq_fix_table = kzalloc(sizeof(*cpufreq_fix_table)*
-			cpu_info[0].num_freqs+1,GFP_KERNEL);
-		for (i=0;i<cpu_info[0].num_freqs;i++) {
+	if (!cpufreq_frequency_get_table(0)) {
+		cpu_info = (struct bcm_cpu_info*)kallsyms_lookup_name(
+				"bcm215xx_cpu_info");
+		if (cpu_info) {
+			cpufreq_fix_table = kmalloc(sizeof(struct cpufreq_frequency_table)*
+				(cpu_info[0].num_freqs+1),GFP_KERNEL);
+			for (i=0;i<cpu_info[0].num_freqs;i++) {
+				cpufreq_fix_table[i].index = i;
+				cpufreq_fix_table[i].frequency =
+					cpu_info[0].freq_tbl[i].cpu_freq*1000;
+			}
+			i = cpu_info[0].num_freqs;
 			cpufreq_fix_table[i].index = i;
-			cpufreq_fix_table[i].frequency =
-				cpu_info[0].freq_tbl[i].cpu_freq*1000;
+			cpufreq_fix_table[i].frequency = CPUFREQ_TABLE_END;
+			cpufreq_frequency_table_get_attr(cpufreq_fix_table,0);
 		}
-		i = cpu_info[0].num_freqs;
-		cpufreq_fix_table[i].index = i;
-		cpufreq_fix_table[i].frequency = CPUFREQ_TABLE_END;
-		cpufreq_frequency_table_get_attr(cpufreq_fix_table,0);
 	}
 
 	/* latency */
 	policy = cpufreq_cpu_get(0);
 	if (policy) {
-		policy->cpuinfo.transition_latency = 1000000;
+		if (policy->cpuinfo.transition_latency > 10000000)
+			policy->cpuinfo.transition_latency = 1000000;
 		cpufreq_cpu_put(policy);
 	}
 }
@@ -175,7 +176,7 @@ static int proc_volt_cpu(struct ctl_table *table, int write,
 	int ret;
 	char temp[VOLT_CPU_LEN+4];
 	int voltage;
-	
+
 	if (write) {
 		if (*lenp>VOLT_CPU_LEN)
 			return 0;
